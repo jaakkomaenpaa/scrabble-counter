@@ -1,0 +1,199 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--colors-textDefault);
+  gap: 5rem;
+}
+
+.gameHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gameHeader p {
+  margin: 0;
+}
+
+.finishedGameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playerTable {
+  border-collapse: collapse;
+  background-color: var(--colors-backgroundSecondary);
+  border-radius: 6px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.th,
+.td {
+  text-align: center;
+  height: 1.5rem;
+  min-width: 6rem;
+  padding: 1rem;
+}
+
+.th:first-child,
+td:first-child {
+  text-align: start;
+  padding-left: 1.5rem;
+}
+
+.tr {
+  border-bottom: 0.5px solid var(--colors-background);
+}
+
+.tr:last-child {
+  border-bottom: 0px;
+}
+
+.trActive {
+  background-color: var(--colors-accent);
+  border-bottom: 0.5px solid var(--colors-background);
+}
+
+.gameFunctionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.wordField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  background-color: var(--colors-backgroundSecondary);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  min-width: 26rem;
+}
+
+.wordContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.letterWrapper {
+  height: 80px;
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.letterInput {
+  font-size: 30px;
+  padding: 10px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border-radius: 10px;
+  border: 2px solid var(--colors-primary);
+  transition: 0.1s ease;
+  cursor: pointer;
+  color: var(--colors-textDefault);
+}
+
+.letterInput:focus {
+  border: 2px solid var(--colors-accent);
+  outline: none;
+}
+
+.bonusSelect {
+  max-width: 120px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.bonusButton {
+  cursor: pointer;
+  background: none;
+  background-color: var(--colors-accent);
+  border: none;
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.bonusLabel,
+.bonusLabelActive {
+  background: none;
+  cursor: pointer;
+  border: 1px solid var(--colors-primary);
+  border: none;
+  min-width: 60%;
+  min-height: 1.5rem;
+  border-radius: 5px;
+  margin-bottom: 0.25rem;
+  transition: 0.4s ease;
+  text-align: center;
+}
+
+.bonusLabel:hover {
+  background-color: var(--colors-accent);
+}
+
+.bonusLabelActive {
+  background-color: var(--colors-accent);
+}
+
+.addBonusIcon {
+  vertical-align: middle;
+  size: 50px;
+}
+
+.bonusPointContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.5rem;
+}
+
+.bonusPointContainer label {
+  width: 8rem;
+  text-align: start;
+}
+
+.bonusCheckContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox {
+  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+}
+
+.extraPointContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pointInput {
+  width: 2rem;
+  border: 1.5px solid var(--colors-textDefault);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: var(--fontWeight-bold);
+  text-align: center;
+}

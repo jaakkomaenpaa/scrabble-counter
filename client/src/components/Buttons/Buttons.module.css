@@ -1,0 +1,62 @@
+.submitButton, .backButton, .continueButton, .deleteButton {
+  outline: none;
+  background: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  min-width: 6rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-wrap: wrap;
+}
+
+.submitButton {
+  background-color: var(--colors-primary);
+  color: var(--colors-textLight);
+  border: 1px solid var(--colors-primary);
+  font-weight: var(--fontWeights-bold);
+}
+
+.submitButton:hover {
+  color: var(--colors-textDefault);
+  box-shadow: 0 0 5px var(--colors-primary);
+}
+
+.backButton {
+  background-color: var(--colors-textLight);
+  color: var(--colors-secondary);
+  border: 1px solid var(--colors-secondary);
+}
+
+.backButton:hover {
+  background-color: var(--colors-secondary);
+  color: var(--colors-textLight);
+  border-color: var(--colors-textLight);
+}
+
+.continueButton {
+  background-color: var(--colors-textLight);
+  color: var(--colors-textDefault);
+  border: 1px solid var(--colors-primary);
+}
+
+.continueButton:hover {
+  background-color: var(--colors-primary);
+  color: var(--colors-textLight);
+  border-color: var(--colors-textLight);
+}
+
+.deleteButton {
+  background-color: var(--colors-secondary);
+  color: var(--colors-textLight);
+  border: 1px solid var(--colors-secondary);
+  font-weight: var(--fontWeights-bold);
+}
+
+.deleteButton:hover {
+  color: var(--colors-textDark);
+  box-shadow: 0 0 5px var(--colors-secondary);
+}

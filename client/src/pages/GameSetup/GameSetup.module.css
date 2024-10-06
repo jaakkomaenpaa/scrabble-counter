@@ -1,0 +1,412 @@
+.container {
+  color: var(--colors-textDefault);
+  display: grid;
+  width: 100%;
+  grid-template-areas:
+    'addSection listSection'
+    'startSection startSection';
+  row-gap: 5rem;
+}
+
+@media screen and (max-width: 980px) {
+  .container {
+    grid-template-areas:
+      'addSection'
+      'listSection'
+      'startSection';
+    row-gap: 2rem;
+  }
+}
+
+.playerAddSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  grid-area: addSection;
+}
+
+.playerAddCard {
+  height: 26rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--colors-backgroundSecondary);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+/********************
+*   PLAYER SEARCH   *
+*********************/
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 50%;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.searchInputWrapper label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: inherit;
+  color: var(--colors-primary);
+  transition: 0.3s ease;
+  cursor: text;
+}
+
+.searchInputWrapper:hover label {
+  color: var(--colors-accent);
+}
+
+.searchInput {
+  border-radius: 15px;
+  width: 100%;
+  padding: 1rem;
+  height: 2rem;
+  color: var(--colors-textDefault);
+  border: 2px solid var(--colors-primary);
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: var(--colors-accent);
+}
+
+.searchNoResultText {
+  align-self: center;
+}
+
+.searchResultList {
+  padding: 0;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchResultItem {
+  list-style-type: none;
+  cursor: pointer;
+  padding: 0.5rem 0.5rem;
+  transition: 0.3s ease;
+}
+
+.searchResultItem:hover {
+  background-color: var(--colors-accent);
+}
+
+.searchInputWrapper .searchInput:focus + label,
+.searchInputWrapper .searchInput:not(:placeholder-shown) + label {
+  left: 105%;
+  color: var(--colors-accent);
+  overflow: -moz-hidden-unscrollable;
+}
+
+/**********************
+*   ADD PLAYER FORM   *
+***********************/
+
+.addNewContainer {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+}
+
+.showFormButton {
+  align-self: flex-start;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: var(--fontWeights-bold);
+  color: var(--colors-textDefault);
+  transition: 0.3s ease;
+}
+
+.showFormButton:hover,
+.showFormButton:focus {
+  color: var(--colors-accent);
+}
+
+.playerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.playerFormInput {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--colors-primary);
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+.playerFormInput:focus {
+  border-color: var(--colors-accent);
+}
+
+.inputWrapper label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: inherit;
+  color: var(--colors-primary);
+  transition: 0.3s ease;
+  text-wrap: nowrap;
+  cursor: text;
+}
+
+.inputWrapper:hover label {
+  color: var(--colors-accent);
+}
+
+.inputWrapper .playerFormInput:focus + label,
+.inputWrapper .playerFormInput:not(:placeholder-shown) + label {
+  left: 12rem;
+  color: var(--colors-accent);
+  overflow: -moz-hidden-unscrollable;
+}
+
+.addPlayerButton {
+  margin-top: 1rem;
+  outline: none;
+  background: none;
+  background-color: var(--colors-accent);
+  color: var(--colors-textDefault);
+  border: 1px solid var(--colors-primary);
+  padding: 0.75rem 1.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.addPlayerButton:hover {
+  background-color: var(--colors-textLight);
+  border-color: var(--colors-accent);
+  color: var(--colors-accent);
+}
+
+/******************
+*   PLAYER LIST   *
+*******************/
+
+.playerListSection {
+  grid-area: listSection;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playerListCard {
+  height: 26rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--colors-backgroundSecondary);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.playerListContainer,
+.teamListContainer {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.playerList,
+.teamList {
+  padding: 0px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  counter-reset: item;
+}
+
+.playerListItem,
+.teamListItem {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  padding-left: 30px;
+  transition: 0.3s ease;
+}
+
+.playerListItem::before,
+.teamListItem::before {
+  content: counter(item) '. ';
+  counter-increment: item;
+  position: absolute;
+  left: 0;
+}
+
+.removeIcon {
+  vertical-align: middle;
+  cursor: pointer;
+  margin-left: 1rem;
+  color: var(--colors-secondary);
+  background-color: inherit;
+  transition: 0.3s ease;
+}
+
+.removeIcon:hover {
+  color: var(--colors-error);
+}
+
+/******************
+*   TEAM SELECT   *
+*******************/
+
+.teamSelectContainer {
+  width: 50%;
+}
+
+.addTeamButton {
+}
+
+.modalPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalInnerPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playerSelect {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 8rem;
+}
+
+.infoText {
+  color: var(--colors-info);
+}
+
+.teamNameInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.teamNameInput {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--colors-primary);
+  border-radius: 0.25rem;
+  outline: none;
+  transition: 0.3s ease;
+  color: var(--colors-textDefault);
+}
+
+.teamNameInput:focus,
+.teamNameInput:hover {
+  border-color: var(--colors-accent);
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 1rem;
+}
+
+.changeNameButton {
+}
+
+.playerSelectItem {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.playerSelectItem:hover {
+  background-color: var(--colors-accent);
+}
+
+.emptyBox {
+  background-color: var(--colors-textLight);
+  border: 1px solid black;
+  height: 12px;
+  width: 12px;
+  margin-right: 1px;
+  border-radius: 2px;
+}
+
+/**********************
+*   START CONTAINER   *
+***********************/
+
+.startContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  grid-area: startSection;
+
+}
+
+.gameModeSelectContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.gameModeSelect {
+  padding: 10px 15px;
+  border: 1px solid var(--colors-primary);
+  border-radius: 6px;
+  font-weight: var(--fontWeights-bold);
+  background-color: var(--colors-textLight);
+  appearance: none;
+  transition: 0.3s ease;
+  color: var(--colors-textDefault);
+  cursor: pointer;
+  height: 100%;
+  width: 6rem;
+}
+
+.gameModeSelect:hover,
+.gameModeSelect:focus {
+  border-color: var(--colors-primary);
+  box-shadow: 0 0 5px var(--colors-primary);
+  outline: none;
+}
+
+.gameModeOption {
+
+}

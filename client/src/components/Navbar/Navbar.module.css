@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbarTab {
+  text-decoration: none;
+  color: var(--colors-textLight);
+  font-weight: 500;
+  background-color: var(--colors-primary);
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.navbarTab:hover,
+.navbarTab:focus {
+  background-color: var(--colors-accent);
+  color: var(--colors-textDefault);
+}
+
+.navbarTabActive {
+  text-decoration: none;
+  font-weight: 500;
+  background-color: var(--colors-accent);
+  color: var(--colors-textDefault);
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
