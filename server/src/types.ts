@@ -1,5 +1,4 @@
 import Player from './classes/Player'
-import Team from './classes/Team'
 
 export interface TeamWithMembers {
   id: number
@@ -10,6 +9,7 @@ export interface TeamWithMembers {
 export interface PlayerGameStatus {
   score: number
   turnsUsed: number
+  inTurnIndex: number
 }
 
 export interface GameParticipant {
@@ -17,6 +17,7 @@ export interface GameParticipant {
   isTeam: boolean
   score: number
   turnsUsed: number
+  inTurnIndex: number
   wordsPlayed: WordScoreApi[]
 }
 

@@ -90,6 +90,7 @@ export interface GameParticipant {
   isTeam: boolean
   score: number
   turnsUsed: number
+  inTurnIndex: number
   wordsPlayed: WordScoreApi[]
 }
 

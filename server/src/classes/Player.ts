@@ -25,7 +25,7 @@ export default class Player {
   public static createFromRow(row: any): Player {
     const player = new Player(row.id, row.fullName, row.displayName)
 
-    if (Object.values(player).some(value => value === undefined)) {
+    if (Object.values(player).some((value) => value === undefined)) {
       // Warn and continue
       console.error(`Created player with id ${row.id} has undefined fields`)
     }
@@ -51,7 +51,7 @@ export default class Player {
       throw new Error('Players not found')
     }
 
-    return rows.map(row => this.createFromRow(row))
+    return rows.map((row) => this.createFromRow(row))
   }
 
   /* Get single player with id */
@@ -77,12 +77,13 @@ export default class Player {
   }
 
   /* Add a player to a game */
-  public addToGame(gameId: number, teamId?: number): void {
+  public addToGame(gameId: number, inTurnIndex: number, teamId?: number): void {
     const insert = DB.prepare(insertPlayerToGame).run(
       this.id,
       gameId,
       0,
       0,
+      inTurnIndex,
       teamId || null
     )
 

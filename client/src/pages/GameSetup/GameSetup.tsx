@@ -133,6 +133,7 @@ const GameSetup = () => {
           isTeam: false,
           score: 0,
           turnsUsed: 0,
+          inTurnIndex: 0, // Temporary
           wordsPlayed: [],
         } as GameParticipant
       }
@@ -144,6 +145,7 @@ const GameSetup = () => {
         isTeam: true,
         score: 0,
         turnsUsed: 0,
+        inTurnIndex: 0, // Temporary
         wordsPlayed: [],
       } as GameParticipant
     })
@@ -157,10 +159,15 @@ const GameSetup = () => {
   }
 
   const startGame = async () => {
-    console.log('participants', gameParticipants)
-
+    // Order based on the drag & drop result
+    const orderedParticipants = gameParticipants.map(
+      (entry: GameParticipant, index: number) => ({
+        ...entry,
+        inTurnIndex: index + 1,
+      })
+    )
     // Start game in db
-    const game: Game = await gameService.create(gameMode, gameParticipants)
+    const game: Game = await gameService.create(gameMode, orderedParticipants)
 
     updateAllPlayers([])
     updateSinglePlayers([])

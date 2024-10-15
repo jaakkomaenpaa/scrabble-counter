@@ -21,6 +21,7 @@ export const TEMP_PARTICIPANTS: GameParticipant[] = [
     isTeam: true,
     score: 0,
     turnsUsed: 0,
+    inTurnIndex: 1,
     wordsPlayed: [],
   },
   {
@@ -32,6 +33,7 @@ export const TEMP_PARTICIPANTS: GameParticipant[] = [
     isTeam: false,
     score: 0,
     turnsUsed: 0,
+    inTurnIndex: 2,
     wordsPlayed: [],
   },
   {
@@ -54,6 +56,7 @@ export const TEMP_PARTICIPANTS: GameParticipant[] = [
     isTeam: true,
     score: 0,
     turnsUsed: 0,
+    inTurnIndex: 3,
     wordsPlayed: [],
   },
   {
@@ -65,6 +68,7 @@ export const TEMP_PARTICIPANTS: GameParticipant[] = [
     isTeam: false,
     score: 0,
     turnsUsed: 0,
+    inTurnIndex: 4,
     wordsPlayed: [],
   },
 ]

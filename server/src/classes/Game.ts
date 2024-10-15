@@ -63,7 +63,7 @@ export default class Game {
         entry.participant,
         entry.isTeam,
         (player: Player, teamId?: number) => {
-          player.addToGame(gameId, teamId)
+          player.addToGame(gameId, entry.inTurnIndex, teamId)
         }
       )
     })
@@ -115,7 +115,7 @@ export default class Game {
     const singlePlayers: Player[] = []
     const teams: Team[] = []
 
-    rows.forEach(row => {
+    rows.forEach((row) => {
       if (!row.teamId) {
         singlePlayers.push(Player.fetchById(row.playerId))
         return
@@ -123,7 +123,7 @@ export default class Game {
 
       const team = Team.fetchById(row.teamId)
 
-      if (!teams.some(entry => entry.id === team.id)) {
+      if (!teams.some((entry) => entry.id === team.id)) {
         team.getMembers()
         teams.push(team)
       }
@@ -138,6 +138,7 @@ export default class Game {
           isTeam: false,
           score: status.score,
           turnsUsed: status.turnsUsed,
+          inTurnIndex: status.inTurnIndex,
           wordsPlayed: player.getWordsForGame(this.id),
         } as GameParticipant
       })
@@ -152,12 +153,15 @@ export default class Game {
           isTeam: true,
           score: status.score,
           turnsUsed: status.turnsUsed,
+          inTurnIndex: status.inTurnIndex,
           wordsPlayed: team.getWordsForGame(this.id),
         } as GameParticipant
       })
     )
 
-    return this.participants
+    return this.participants.sort(
+      (a: GameParticipant, b: GameParticipant) => a.inTurnIndex - b.inTurnIndex
+    )
   }
 
   /* Set game as finished */

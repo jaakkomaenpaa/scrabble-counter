@@ -24,8 +24,6 @@ export const DB = new Database(dbPath, {
   fileMustExist: true,
 })
 
-console.log('DB', DB)
-
 export const config = {
   PORT,
   MODE,

@@ -22,6 +22,7 @@ export const createPlayerGames = `
     gameId INTEGER,
     score INTEGER,
     turnsUsed INTEGER,
+    inTurnIndex INTEGER,
     teamId INTEGER, --NULL if no team
     PRIMARY KEY (playerId, gameId),
     FOREIGN KEY (playerId) REFERENCES players (id) ON DELETE CASCADE,

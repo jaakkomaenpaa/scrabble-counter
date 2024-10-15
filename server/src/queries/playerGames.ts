@@ -1,5 +1,5 @@
 const baseStatusSelectionQuery = `
-  SELECT score, turnsUsed
+  SELECT score, turnsUsed, inTurnIndex
   FROM playerGames
   WHERE gameId = ?
 `
@@ -36,8 +36,8 @@ export const selectTeamByMembers = (placeholders: string) => `
 `
 
 export const insertPlayerToGame = `
-  INSERT INTO playerGames (playerId, gameId, score, turnsUsed, teamId)
-  VALUES (?, ?, ?, ?, ?)
+  INSERT INTO playerGames (playerId, gameId, score, turnsUsed, inTurnIndex, teamId)
+  VALUES (?, ?, ?, ?, ?, ?)
 `
 
 export const updatePlayerGameStatus = `

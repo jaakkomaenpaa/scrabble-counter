@@ -100,3 +100,27 @@ export const deleteDatabase = (req: Request, res: Response) => {
     res.status(500).send(`Error clearing tables: ${error}`)
   }
 }
+
+export const updateDatabase = (req: Request, res: Response) => {
+  const dbName = req.params.dbName
+  if (!dbName) {
+    return res.status(400).send(`Falsy db name ${dbName}`)
+  }
+
+  const db = new Database(`${DB_PATH}/${dbName}.db`, {
+    fileMustExist: true,
+  })
+
+  if (!db) {
+    return res.status(400).send(`DB with name ${dbName} not found.`)
+  }
+
+  try {
+    db.exec(dropDbTables)
+    initDatabase(req, res)
+
+    res.status(200).send('Tables cleared and updated successfully!')
+  } catch (error) {
+    res.status(500).send(`Error clearing tables: ${error}`)
+  }
+}
