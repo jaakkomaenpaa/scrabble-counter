@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "dev": "cross-env MODE=development ts-node-dev src/index.ts",
-    "dev:prod": "cross-env MODE=production ts-node-dev src/index.ts"
+    "dev:prod": "cross-env MODE=production ts-node-dev src/index.ts",
+    "dev:test": "cross-env MODE=test ts-node-dev src/index.ts"
   },
   "keywords": [],
   "author": "",

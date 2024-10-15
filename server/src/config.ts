@@ -4,17 +4,27 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const PORT = process.env.PORT || 3001
-
 const MODE = process.env.MODE || 'development'
 
-const dbPath =
-  MODE === 'development'
-    ? `../database/scrabble-test.db`
-    : `../database/scrabble-prod.db`
+enum RunMode {
+  Development = 'development',
+  Test = 'test',
+  Production = 'production',
+}
+
+const dbPaths: { [key in RunMode]: string } = {
+  ['development']: '../database/scrabble-dev.db',
+  ['test']: '../database/scrabble-test.db',
+  ['production']: '../database/scrabble-prod.db',
+}
+
+const dbPath = dbPaths[MODE as RunMode]
 
 export const DB = new Database(dbPath, {
   fileMustExist: true,
 })
+
+console.log('DB', DB)
 
 export const config = {
   PORT,
