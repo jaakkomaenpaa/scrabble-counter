@@ -1,4 +1,4 @@
-import { Player, Team } from './types'
+import { GameParticipant, Player, Team } from './types'
 
 export const getTeamDisplayName = (team: Team) => {
   const memberNames = team.members
@@ -11,7 +11,7 @@ export const removeFromList = <T extends { id: number }>(
   list: T[],
   entry: T
 ): T[] => {
-  const updatedList = list.filter(e => e.id !== entry.id)
+  const updatedList = list.filter((e) => e.id !== entry.id)
   return updatedList
 }
 
@@ -53,4 +53,24 @@ export const formatDate = (date: Date): string => {
   }
 
   return `${day}.${month}.${year} - ${hours}:${minutes}`
+}
+
+export const getGameParticipantId = (entry: GameParticipant): string => {
+  if (entry.isTeam) {
+    const team: Team = entry.participant as Team
+    return team.members[0].id.toString()
+  }
+
+  const player: Player = entry.participant as Player
+  return player.id.toString()
+}
+
+export const getParticipantDisplayName = (entry: GameParticipant): string => {
+  if (entry.isTeam) {
+    const team: Team = entry.participant as Team
+    return getTeamDisplayName(team)
+  }
+
+  const player: Player = entry.participant as Player
+  return player.displayName
 }

@@ -1,4 +1,10 @@
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import {
+  ChangeEvent,
+  MouseEvent as MouseEventReact,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import Modal from '../../components/Modal'
 import styles from './GameSetup.module.css'
 import { ModalPosition, Player } from '../../types'
@@ -22,13 +28,38 @@ const PlayerSearch = ({
     left: 0,
   })
   const [searchInputWidth, setSearchInputWidth] = useState<number>()
+  const modalRef = useRef<HTMLUListElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const handleClickOutsideModal = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setShowSearchResults(false)
+      }
+    }
+
+    if (showSearchResults) {
+      document.addEventListener('mousedown', handleClickOutsideModal)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutsideModal)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideModal)
+    }
+  }, [showSearchResults])
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     const rect = event.currentTarget.getBoundingClientRect()
     displaySearchResults(event.target.value, rect)
   }
 
-  const handleClickSearchInput = (event: MouseEvent<HTMLInputElement>) => {
+  const handleClickSearchInput = (event: MouseEventReact<HTMLInputElement>) => {
     const rect = event.currentTarget.getBoundingClientRect()
     displaySearchResults(searchText, rect)
     setSearchInputWidth(rect.width)
@@ -42,7 +73,7 @@ const PlayerSearch = ({
       (player: Player) =>
         (player.displayName.toLowerCase().includes(input) ||
           player.fullName.toLowerCase().includes(input)) &&
-        playersForGame.every(entry => entry.id !== player.id)
+        playersForGame.every((entry) => entry.id !== player.id)
     )
 
     setSearchModalPosition({
@@ -72,6 +103,7 @@ const PlayerSearch = ({
           value={searchText}
           onChange={handleSearchChange}
           onClick={handleClickSearchInput}
+          ref={searchInputRef}
         />
         <label htmlFor='playerSearch'>Search</label>
       </div>
@@ -79,22 +111,25 @@ const PlayerSearch = ({
         show={showSearchResults}
         position={searchModalPosition}
         onClose={() => setShowSearchResults(false)}
-        includeCloseButton={true}
         customStyles={{
           width: `${searchInputWidth}px`,
           padding: 0,
         }}
       >
-        <ul className={styles.searchResultList}>
-          {playerSearchResults.length > 0 ? playerSearchResults.map((player: Player) => (
-            <li
-              className={styles.searchResultItem}
-              key={player.id}
-              onClick={() => handleClickSearchItem(player)}
-            >
-              {player.displayName} ({player.fullName})
-            </li>
-          )) : <p className={styles.searchNoResultText}>No results</p>}
+        <ul ref={modalRef} className={styles.searchResultList}>
+          {playerSearchResults.length > 0 ? (
+            playerSearchResults.map((player: Player) => (
+              <li
+                className={styles.searchResultItem}
+                key={player.id}
+                onClick={() => handleClickSearchItem(player)}
+              >
+                {player.displayName} ({player.fullName})
+              </li>
+            ))
+          ) : (
+            <p className={styles.searchNoResultText}>No results</p>
+          )}
         </ul>
       </Modal>
     </section>

@@ -1,16 +1,15 @@
-import { useState } from 'react'
 import { GameMode } from '../../types'
 import styles from './GameSetup.module.css'
 import { SubmitButton } from '../../components/Buttons'
 import { theme } from '../../theme'
 
 interface StartSectionProps {
-  handleStartGame: (gameMode: GameMode) => void
+  gameMode: GameMode
+  setGameMode: (mode: GameMode) => void
+  onStart: () => void
 }
 
-const StartSection = ({ handleStartGame }: StartSectionProps) => {
-  const [gameMode, setGameMode] = useState<GameMode>(GameMode.Normal)
-
+const StartSection = ({ gameMode, setGameMode, onStart }: StartSectionProps) => {
   return (
     <section className={styles.startContainer}>
       <div className={styles.gameModeSelectContainer}>
@@ -19,7 +18,7 @@ const StartSection = ({ handleStartGame }: StartSectionProps) => {
           id='gameModeSelect'
           className={styles.gameModeSelect}
           value={gameMode}
-          onChange={e => setGameMode(e.target.value as GameMode)}
+          onChange={(e) => setGameMode(e.target.value as GameMode)}
         >
           {Object.values(GameMode).map((mode: GameMode) => (
             <option className={styles.gameModeOption} key={mode} value={mode}>
@@ -30,7 +29,7 @@ const StartSection = ({ handleStartGame }: StartSectionProps) => {
       </div>
       <div className={styles.startButtonContainer}>
         <SubmitButton
-          onClick={() => handleStartGame(gameMode)}
+          onClick={onStart}
           label='Start game'
           customStyles={{ fontWeight: theme.fontWeights.bold }}
         />

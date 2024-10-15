@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import styles from './GameSetup.module.css'
 import playerService from '../../services/players'
 import {
@@ -9,14 +11,18 @@ import {
   Player,
   Team,
 } from '../../types'
-import { removeFromList } from '../../utils'
-
+import {
+  getGameParticipantId,
+  getParticipantDisplayName,
+  removeFromList,
+} from '../../utils'
 import teamService from '../../services/teams'
 import gameService from '../../services/games'
-import { useNavigate } from 'react-router-dom'
 import PlayerAddSection from './PlayerAddSection'
 import PlayerListSection from './PlayerListSection'
 import StartSection from './StartSection'
+import ConfirmScreen from '../../components/ConfirmScreen'
+import { DragAndDrop } from '../../components/DragAndDrop'
 
 const GameSetup = () => {
   const [playerListFromApi, setPlayerListFromApi] = useState<Player[]>([])
@@ -24,6 +30,9 @@ const GameSetup = () => {
   const [singlePlayerList, setSinglePlayerList] = useState<Player[]>([])
   const [teamList, setTeamList] = useState<Team[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [showConfirmScreen, setShowConfirmScreen] = useState<boolean>(false)
+  const [gameMode, setGameMode] = useState<GameMode>(GameMode.Normal)
+  const [gameParticipants, setGameParticipants] = useState<GameParticipant[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -115,7 +124,7 @@ const GameSetup = () => {
     await teamService.deleteFromDb(team.id)
   }
 
-  const handleStartGame = async (gameMode: GameMode) => {
+  const prepareStartGame = async () => {
     // Convert players and teams to GameParticipant
     const convertedPlayerList: GameParticipant[] = singlePlayerList.map(
       (player: Player) => {
@@ -143,14 +152,20 @@ const GameSetup = () => {
       ...convertedPlayerList,
       ...convertedTeamList,
     ]
+    setGameParticipants(participants)
+    setShowConfirmScreen(true)
+  }
+
+  const startGame = async () => {
+    console.log('participants', gameParticipants)
 
     // Start game in db
-    const game: Game = await gameService.create(gameMode, participants)
-    
+    const game: Game = await gameService.create(gameMode, gameParticipants)
+
     updateAllPlayers([])
     updateSinglePlayers([])
     updateTeams([])
-    
+
     navigate(`/game/${game.id}`)
   }
 
@@ -174,8 +189,27 @@ const GameSetup = () => {
         handleAddTeam={handleAddTeam}
       />
       {singlePlayerList.length + teamList.length > 1 && (
-        <StartSection handleStartGame={handleStartGame} />
+        <StartSection
+          gameMode={gameMode}
+          setGameMode={setGameMode}
+          onStart={prepareStartGame}
+        />
       )}
+      <ConfirmScreen
+        show={showConfirmScreen}
+        onCancel={() => setShowConfirmScreen(false)}
+        onConfirm={startGame}
+      >
+        <div>
+          Define playing order (drag and drop)
+          <DragAndDrop
+            items={gameParticipants}
+            setItems={setGameParticipants}
+            getId={getGameParticipantId}
+            getContent={getParticipantDisplayName}
+          />
+        </div>
+      </ConfirmScreen>
     </main>
   )
 }

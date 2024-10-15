@@ -18,12 +18,16 @@ const Navbar = () => {
   ]
 
   const getLinkClass = (path: string) => {
+    if (pathname === '/' && path === '/game') {
+      return styles.navbarTabActive
+    }
+
     return pathname === path ? styles.navbarTabActive : styles.navbarTab
   }
 
   return (
     <section className={styles.container}>
-      {links.map(link => (
+      {links.map((link) => (
         <Link key={link.to} className={getLinkClass(link.to)} to={link.to}>
           {link.label}
         </Link>

@@ -80,7 +80,7 @@ const WordField = ({ setWord }: WordFieldProps) => {
               className={styles.pointInput}
               type='text'
               value={extraPoints}
-              onChange={e => setExtraPoints(e.target.value)}
+              onChange={(e) => setExtraPoints(e.target.value)}
             />
           </div>
         </section>
@@ -99,10 +99,11 @@ const WordField = ({ setWord }: WordFieldProps) => {
       />
       <ConfirmScreen
         show={showConfirmScreen}
-        text='Finish this game? It cannot be modified afterwards.'
         onCancel={() => setShowConfirmScreen(false)}
         onConfirm={finishGame}
-      />
+      >
+        Finish this game? It cannot be modified afterwards.
+      </ConfirmScreen>
     </section>
   )
 }
