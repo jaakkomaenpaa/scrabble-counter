@@ -52,13 +52,17 @@ export default class Team {
 
   /* Find team by its members; return null if doesn't exist */
   public static findByMembers(players: Player[]): Team | null {
-    const placeholders = players.map(() => '?').join(', ')
-    const playerIds = players.map(player => player.id)
+    if (players.length === 0) {
+      return null
+    }
 
-    const row = DB.prepare(selectTeamByMembers(placeholders)).get(
-      playerIds,
-      playerIds.length
-    ) as { teamId: number }
+    const placeholders = players.map(() => '?').join(', ')
+    const playerIds = players.map((player) => player.id)
+
+    const queryParams = [...playerIds, playerIds.length]
+    const query = selectTeamByMembers(placeholders)
+
+    const row = DB.prepare(query).get(queryParams) as { teamId: number }
 
     if (!row || !row.teamId) {
       return null
@@ -96,7 +100,7 @@ export default class Team {
       return []
     }
 
-    const players: Player[] = rows.map(row => Player.fetchById(row.playerId))
+    const players: Player[] = rows.map((row) => Player.fetchById(row.playerId))
 
     this.members = players
     return players
@@ -114,7 +118,7 @@ export default class Team {
         `Could not find stats for team id ${this.id} and game id ${gameId}`
       )
     }
-    
+
     return rows
   }
 

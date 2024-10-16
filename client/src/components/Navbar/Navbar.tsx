@@ -22,7 +22,7 @@ const Navbar = () => {
       return styles.navbarTabActive
     }
 
-    return pathname === path ? styles.navbarTabActive : styles.navbarTab
+    return pathname.includes(path) ? styles.navbarTabActive : styles.navbarTab
   }
 
   return (

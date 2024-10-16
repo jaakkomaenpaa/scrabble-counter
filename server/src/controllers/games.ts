@@ -12,7 +12,7 @@ export const getGameById = (req: Request, res: Response) => {
 
 export const createGame = (req: Request, res: Response) => {
   const { gameMode, participants } = req.body
- 
+
   try {
     const game = Game.addTemplate(gameMode, new Date(), participants)
     res.json(game)
@@ -69,6 +69,7 @@ export const testFunction = (req: Request, res: Response) => {
       isTeam: false,
       score: 0,
       turnsUsed: 0,
+      inTurnIndex: 1,
       wordsPlayed: [],
     },
     {
@@ -76,6 +77,7 @@ export const testFunction = (req: Request, res: Response) => {
       isTeam: false,
       score: 0,
       turnsUsed: 0,
+      inTurnIndex: 2,
       wordsPlayed: [],
     },
     {
@@ -86,6 +88,7 @@ export const testFunction = (req: Request, res: Response) => {
       isTeam: true,
       score: 0,
       turnsUsed: 0,
+      inTurnIndex: 3,
       wordsPlayed: [],
     },
   ]
@@ -96,8 +99,6 @@ export const testFunction = (req: Request, res: Response) => {
 }
 
 export const populatePlayers = (req: Request, res: Response) => {
-  console.log('populate')
-
   for (let i = 0; i < 5; i++) {
     Player.create(`Player name ${i}`, `Player ${i}`)
   }

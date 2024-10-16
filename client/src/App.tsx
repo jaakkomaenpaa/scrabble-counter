@@ -3,10 +3,6 @@ import Game from './pages/GameView'
 import GameSetup from './pages/GameSetup'
 import Navbar from './components/Navbar'
 import ErrorPage from './pages/ErrorPage'
-import TileText from './components/TileText'
-
-//
-//  <TileText text='Scrabble counter' customStyles={{maxWidth: '350px', marginLeft: '1rem'}} />
 
 const App = () => {
   return (

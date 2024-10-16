@@ -24,6 +24,8 @@ export const findTeamByMembers = (req: Request, res: Response) => {
 
   try {
     const team = Team.findByMembers(players)
+    console.log('team', team)
+    
     res.json(team) // May be null
   } catch (error) {
     console.error(error)

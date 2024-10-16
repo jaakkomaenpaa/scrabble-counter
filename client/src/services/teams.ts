@@ -13,7 +13,6 @@ const findByMembers = async (players: Player[]): Promise<Team | null> => {
   const body = { players }
 
   const response = await axios.post(`${baseUrl}/find`, body)
-  console.log('response from findByMembers', response)
   return response.data
 }
 

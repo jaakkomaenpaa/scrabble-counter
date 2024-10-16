@@ -2,7 +2,7 @@ import { KeyboardEvent, MouseEvent, useRef, useState } from 'react'
 import { IoStarOutline } from 'react-icons/io5'
 
 import styles from './Game.module.css'
-import { Bonus, Letter, LetterScore, ModalPosition } from '../../types'
+import { Bonus, Letter, LetterScore } from '../../types'
 import Modal from '../../components/Modal'
 
 const emptyField: LetterScore = {
@@ -18,10 +18,6 @@ interface WordInputProps {
 const WordInput = ({ letters, setLetters }: WordInputProps) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [activeLetterIndex, setActiveLetterIndex] = useState<number | null>(null)
-  const [modalPosition, setModalPosition] = useState<ModalPosition>({
-    top: 0,
-    left: 0,
-  })
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const setFocus = (index: number) => {
@@ -58,6 +54,9 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
     if (Object.values(Letter).includes(key)) {
       addLetter(key, index)
     }
+
+    // NEW CHANGE
+    event.preventDefault()
   }
 
   const addLetter = (letter: Letter, index: number) => {
@@ -86,7 +85,6 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
     }
 
     setLetters([...letters.slice(0, index), ...letters.slice(index + 1)])
-    return
   }
 
   const handleLetterClick = (event: MouseEvent<HTMLButtonElement>, index: number) => {
@@ -96,12 +94,6 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
     }
 
     setActiveLetterIndex(index)
-    const rect = event.currentTarget.getBoundingClientRect()
-
-    setModalPosition({
-      top: rect.top - rect.height - 200,
-      left: rect.left,
-    })
     setShowModal(true)
   }
 
@@ -124,10 +116,11 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
             <Modal
               show={showModal}
               onClose={() => setShowModal(false)}
-              position={modalPosition}
+              position={{ top: 0, left: 0 }}
+              occupyWholeScreen={true}
             >
               <div className={styles.bonusSelect}>
-                {Object.values(Bonus).map(bonus => (
+                {Object.values(Bonus).map((bonus) => (
                   <button
                     key={bonus}
                     className={styles.bonusButton}
@@ -146,7 +139,7 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
                 ? styles.bonusLabelActive
                 : styles.bonusLabel
             }
-            onClick={e => handleLetterClick(e, index)}
+            onClick={(e) => handleLetterClick(e, index)}
           >
             {letter.bonus !== Bonus.NoBonus ? (
               letter.bonus
@@ -155,13 +148,12 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
             )}
           </button>
           <input
-            readOnly
             className={styles.letterInput}
             type='text'
             value={letter.letter}
             maxLength={1}
-            onKeyDown={e => handleKeyDown(index, e)}
-            ref={el => (inputRefs.current[index] = el)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
+            ref={(el) => (inputRefs.current[index] = el)}
           />
         </div>
       ))}

@@ -3,6 +3,7 @@ import { IoRemoveCircleOutline } from 'react-icons/io5'
 import { Player, Team } from '../../types'
 import styles from './GameSetup.module.css'
 import TeamSelect from './TeamSelect'
+import { getTeamDisplayName } from '../../utils'
 
 interface PlayerListSectionProps {
   playersForGame: Player[]
@@ -50,7 +51,7 @@ const PlayerListSection = ({
             <ul className={styles.teamList}>
               {teamList.map((team: Team) => (
                 <li key={team.id} className={styles.teamListItem}>
-                  {team.name}{' '}
+                  {getTeamDisplayName(team)}{' '}
                   <IoRemoveCircleOutline
                     size={20}
                     className={styles.removeIcon}

@@ -87,6 +87,11 @@ const TeamSelect = ({ singlePlayerList, addTeam }: TeamSelectProps) => {
     setSelectedPlayers([])
   }
 
+  const goBackToPage = (page: number) => {
+    setSelectedPlayers([])
+    setPage(page)
+  }
+
   return (
     <div className={styles.teamSelectContainer}>
       {singlePlayerList.length >= 2 && (
@@ -130,11 +135,11 @@ const TeamSelect = ({ singlePlayerList, addTeam }: TeamSelectProps) => {
                   className={styles.changeNameButton}
                   onClick={() => setPage(3)}
                 >
-                  Change name
+                  Change name?
                 </button>
                 <div className={styles.buttonContainer}>
                   <SubmitButton onClick={addTeamToGame} />
-                  <BackButton onClick={() => setPage(1)} />
+                  <BackButton onClick={() => goBackToPage(1)} />
                 </div>
               </div>
             ) : (
@@ -150,12 +155,12 @@ const TeamSelect = ({ singlePlayerList, addTeam }: TeamSelectProps) => {
                     placeholder='min. 4 characters'
                     autoComplete='off'
                     value={teamName}
-                    onChange={e => setTeamName(e.target.value)}
+                    onChange={(e) => setTeamName(e.target.value)}
                   />
                 </div>
                 <div className={styles.buttonContainer}>
                   <SubmitButton onClick={createTeam} />
-                  <BackButton onClick={() => setPage(1)} />
+                  <BackButton onClick={() => goBackToPage(1)} />
                 </div>
               </div>
             )}
@@ -165,14 +170,17 @@ const TeamSelect = ({ singlePlayerList, addTeam }: TeamSelectProps) => {
           <div className={styles.modalPage}>
             <label htmlFor='newTeamName'>New name:</label>
             <input
+              className={styles.teamNameInput}
               id='newTeamName'
               type='text'
               autoComplete='off'
               value={newTeamName}
-              onChange={e => setNewTeamName(e.target.value)}
+              onChange={(e) => setNewTeamName(e.target.value)}
             />
-            <SubmitButton onClick={handleNameChange} />
-            <BackButton onClick={() => setPage(2)} />
+            <div className={styles.buttonContainer}>
+              <SubmitButton onClick={handleNameChange} />
+              <BackButton onClick={() => setPage(2)} />
+            </div>
           </div>
         )}
       </Modal>

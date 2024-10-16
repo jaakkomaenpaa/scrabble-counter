@@ -44,25 +44,26 @@ const GameSetup = () => {
     }
     getData()
 
-    const storagePlayersForGame = JSON.parse(
-      window.localStorage.getItem(LocalStorageKey.AllPlayersList) || '{}'
+    const storagePlayersForGameJSON = window.localStorage.getItem(
+      LocalStorageKey.AllPlayersList
     )
-    if (Object.keys(storagePlayersForGame).length > 0) {
-      setPlayersForGame(storagePlayersForGame as Player[])
+
+    if (storagePlayersForGameJSON) {
+      setPlayersForGame(JSON.parse(storagePlayersForGameJSON) as Player[])
     }
 
-    const storageSinglePlayerList = JSON.parse(
-      window.localStorage.getItem(LocalStorageKey.SinglePlayerList) || '{}'
+    const storageSinglePlayerListJSON = window.localStorage.getItem(
+      LocalStorageKey.SinglePlayerList
     )
-    if (Object.keys(storageSinglePlayerList).length > 0) {
-      setSinglePlayerList(storageSinglePlayerList as Player[])
+
+    if (storageSinglePlayerListJSON) {
+      setSinglePlayerList(JSON.parse(storageSinglePlayerListJSON) as Player[])
     }
 
-    const storageTeamList = JSON.parse(
-      window.localStorage.getItem(LocalStorageKey.TeamList) || '{}'
-    )
-    if (Object.keys(storageTeamList).length > 0) {
-      setTeamList(storageTeamList as Team[])
+    const storageTeamListJSON = window.localStorage.getItem(LocalStorageKey.TeamList)
+
+    if (storageTeamListJSON) {
+      setTeamList(JSON.parse(storageTeamListJSON) as Team[])
     }
 
     setIsLoading(false)

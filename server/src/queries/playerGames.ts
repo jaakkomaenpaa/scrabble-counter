@@ -33,6 +33,7 @@ export const selectTeamByMembers = (placeholders: string) => `
   WHERE playerId IN (${placeholders})
   GROUP BY gameId, teamId
   HAVING COUNT(DISTINCT playerId) = ?
+    AND teamId IS NOT NULL
 `
 
 export const insertPlayerToGame = `

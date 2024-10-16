@@ -12,4 +12,10 @@
   padding: 1rem;
   border: 1px solid var(--colors-textDefault);
   border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+.listItem:focus,
+.listItem:hover {
+  background-color: var(--colors-accent);
 }

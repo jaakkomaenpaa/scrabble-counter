@@ -5,9 +5,8 @@ import {
   useRef,
   useState,
 } from 'react'
-import Modal from '../../components/Modal'
 import styles from './GameSetup.module.css'
-import { ModalPosition, Player } from '../../types'
+import { Player } from '../../types'
 
 interface PlayerSearchProps {
   playerListFromApi: Player[]
@@ -23,19 +22,29 @@ const PlayerSearch = ({
   const [searchText, setSearchText] = useState<string>('')
   const [showSearchResults, setShowSearchResults] = useState<boolean>(false)
   const [playerSearchResults, setPlayerSearchResults] = useState<Player[]>([])
-  const [searchModalPosition, setSearchModalPosition] = useState<ModalPosition>({
-    top: 0,
-    left: 0,
-  })
-  const [searchInputWidth, setSearchInputWidth] = useState<number>()
-  const modalRef = useRef<HTMLUListElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsSmallScreen(window.innerWidth <= 600)
+
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 600)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     const handleClickOutsideModal = (event: MouseEvent) => {
       if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node) &&
+        resultsRef.current &&
+        !resultsRef.current.contains(event.target as Node) &&
         searchInputRef.current &&
         !searchInputRef.current.contains(event.target as Node)
       ) {
@@ -43,11 +52,7 @@ const PlayerSearch = ({
       }
     }
 
-    if (showSearchResults) {
-      document.addEventListener('mousedown', handleClickOutsideModal)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutsideModal)
-    }
+    document.addEventListener('mousedown', handleClickOutsideModal)
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutsideModal)
@@ -60,9 +65,15 @@ const PlayerSearch = ({
   }
 
   const handleClickSearchInput = (event: MouseEventReact<HTMLInputElement>) => {
+    if (searchInputRef.current) {
+      // Timeout needed for this to work on mobile
+      setTimeout(() => {
+        searchInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
+
     const rect = event.currentTarget.getBoundingClientRect()
     displaySearchResults(searchText, rect)
-    setSearchInputWidth(rect.width)
   }
 
   const displaySearchResults = (value: string, rect: DOMRect) => {
@@ -75,11 +86,6 @@ const PlayerSearch = ({
           player.fullName.toLowerCase().includes(input)) &&
         playersForGame.every((entry) => entry.id !== player.id)
     )
-
-    setSearchModalPosition({
-      top: rect.bottom,
-      left: rect.left,
-    })
 
     setPlayerSearchResults(matchingPlayers)
     setShowSearchResults(true)
@@ -98,40 +104,29 @@ const PlayerSearch = ({
           id='playerSearch'
           type='search'
           autoComplete='off'
-          placeholder=''
+          placeholder={isSmallScreen ? 'Search' : ''}
           className={styles.searchInput}
           value={searchText}
           onChange={handleSearchChange}
           onClick={handleClickSearchInput}
           ref={searchInputRef}
+          onFocus={(e) => e.preventDefault()}
         />
         <label htmlFor='playerSearch'>Search</label>
-      </div>
-      <Modal
-        show={showSearchResults}
-        position={searchModalPosition}
-        onClose={() => setShowSearchResults(false)}
-        customStyles={{
-          width: `${searchInputWidth}px`,
-          padding: 0,
-        }}
-      >
-        <ul ref={modalRef} className={styles.searchResultList}>
-          {playerSearchResults.length > 0 ? (
-            playerSearchResults.map((player: Player) => (
-              <li
+        {showSearchResults && (
+          <div ref={resultsRef} className={styles.searchResultList}>
+            {playerSearchResults.map((player: Player) => (
+              <div
                 className={styles.searchResultItem}
                 key={player.id}
                 onClick={() => handleClickSearchItem(player)}
               >
                 {player.displayName} ({player.fullName})
-              </li>
-            ))
-          ) : (
-            <p className={styles.searchNoResultText}>No results</p>
-          )}
-        </ul>
-      </Modal>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   )
 }

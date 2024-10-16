@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Bonus, Letter, LetterScore } from '../../types'
 import styles from './Game.module.css'
@@ -7,7 +8,6 @@ import WordInput from './WordInput'
 import { DeleteButton, SubmitButton } from '../../components/Buttons'
 import { theme } from '../../theme'
 import ConfirmScreen from '../../components/ConfirmScreen'
-import { useParams } from 'react-router-dom'
 import gameService from '../../services/games'
 
 const emptyField: LetterScore = {
@@ -24,7 +24,8 @@ const WordField = ({ setWord }: WordFieldProps) => {
   const [score, setScore] = useState<number>(0)
   const [wordGetsBonus, setWordGetsBonus] = useState<boolean>(false)
   const [extraPoints, setExtraPoints] = useState<string>('')
-  const [showConfirmScreen, setShowConfirmScreen] = useState<boolean>(false)
+  const [showFinishConfirm, setShowFinishConfirm] = useState<boolean>(false)
+  const [showSkipConfirm, setShowSkipConfirm] = useState<boolean>(false)
   const { gameId } = useParams()
 
   useEffect(() => {
@@ -40,12 +41,23 @@ const WordField = ({ setWord }: WordFieldProps) => {
     setScore(wordScoreObj.score)
   }, [letters, wordGetsBonus, extraPoints])
 
-  const handleConfirm = () => {
+  const prepareConfirmWord = () => {
+    if (score === 0) {
+      setShowSkipConfirm(true)
+      return
+    }
+
+    handleConfirmWord()
+  }
+
+  const handleConfirmWord = () => {
     const convertedExtraPoints = parseInt(extraPoints) || 0
 
     setWord(letters, wordGetsBonus, convertedExtraPoints)
     setLetters([emptyField])
     setExtraPoints('')
+    setWordGetsBonus(false)
+    setShowSkipConfirm(false)
   }
 
   const finishGame = async () => {
@@ -54,7 +66,7 @@ const WordField = ({ setWord }: WordFieldProps) => {
     }
 
     await gameService.finish(gameId)
-    setShowConfirmScreen(false)
+    setShowFinishConfirm(false)
     window.location.reload()
   }
 
@@ -69,6 +81,7 @@ const WordField = ({ setWord }: WordFieldProps) => {
               id='bonusCheckbox'
               className={styles.checkbox}
               type='checkbox'
+              checked={wordGetsBonus}
               onClick={() => setWordGetsBonus(!wordGetsBonus)}
             />
           </div>
@@ -84,25 +97,32 @@ const WordField = ({ setWord }: WordFieldProps) => {
             />
           </div>
         </section>
-        <div>Score: {score}</div>
+        <div className={styles.scoreLabel}>Score: {score}</div>
         <SubmitButton
-          onClick={handleConfirm}
+          onClick={prepareConfirmWord}
           label='Confirm'
           customStyles={{ fontWeight: theme.fontWeights.bold }}
         />
       </div>
 
       <DeleteButton
-        onClick={() => setShowConfirmScreen(true)}
+        onClick={() => setShowFinishConfirm(true)}
         label='Finish game'
         customStyles={{ paddingLeft: '0.75rem', paddingRight: '0.75rem' }}
       />
       <ConfirmScreen
-        show={showConfirmScreen}
-        onCancel={() => setShowConfirmScreen(false)}
+        show={showFinishConfirm}
+        onCancel={() => setShowFinishConfirm(false)}
         onConfirm={finishGame}
       >
         Finish this game? It cannot be modified afterwards.
+      </ConfirmScreen>
+      <ConfirmScreen
+        show={showSkipConfirm}
+        onCancel={() => setShowSkipConfirm(false)}
+        onConfirm={handleConfirmWord}
+      >
+        Skip turn?
       </ConfirmScreen>
     </section>
   )

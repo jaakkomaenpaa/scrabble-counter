@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Modal from '../../components/Modal'
 import styles from './GameSetup.module.css'
 import { Player } from '../../types'
@@ -12,6 +12,21 @@ const PlayerForm = ({ addPlayer }: PlayerFormProps) => {
   const [showAddModal, setShowAddModal] = useState<boolean>(false)
   const [playerFullName, setPlayerFullName] = useState<string>('')
   const [playerDisplayName, setPlayerDisplayName] = useState<string>('')
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsSmallScreen(window.innerWidth <= 600)
+
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 600)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const handleAddNewPlayer = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -44,11 +59,11 @@ const PlayerForm = ({ addPlayer }: PlayerFormProps) => {
             <input
               id='fullNameInput'
               className={styles.playerFormInput}
-              placeholder=''
+              placeholder={isSmallScreen ? 'Full name' : ''}
               type='text'
               autoComplete='off'
               value={playerFullName}
-              onChange={e => setPlayerFullName(e.target.value)}
+              onChange={(e) => setPlayerFullName(e.target.value)}
             />
             <label htmlFor='fullNameInput'>Full name</label>
           </div>
@@ -56,11 +71,11 @@ const PlayerForm = ({ addPlayer }: PlayerFormProps) => {
             <input
               id='displayNameInput'
               className={styles.playerFormInput}
-              placeholder=''
+              placeholder={isSmallScreen ? 'Display name' : ''}
               type='text'
               autoComplete='off'
               value={playerDisplayName}
-              onChange={e => setPlayerDisplayName(e.target.value)}
+              onChange={(e) => setPlayerDisplayName(e.target.value)}
             />
             <label htmlFor='displayNameInput'>Display name</label>
           </div>

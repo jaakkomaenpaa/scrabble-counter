@@ -8,16 +8,6 @@
   row-gap: 5rem;
 }
 
-@media screen and (max-width: 980px) {
-  .container {
-    grid-template-areas:
-      'addSection'
-      'listSection'
-      'startSection';
-    row-gap: 2rem;
-  }
-}
-
 .playerAddSection {
   display: flex;
   flex-direction: column;
@@ -79,10 +69,16 @@
   border: 2px solid var(--colors-primary);
   outline: none;
   transition: 0.3s ease;
+  background-color: var(--colors-textLight);
+  font-size: 16px;
 }
 
 .searchInput:focus {
   border-color: var(--colors-accent);
+}
+
+.searchInput::placeholder {
+  color: var(--colors-textSecondary);
 }
 
 .searchNoResultText {
@@ -90,28 +86,26 @@
 }
 
 .searchResultList {
-  padding: 0;
-  margin-bottom: 1.75rem;
-  display: flex;
-  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--colors-textLight);
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 999;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .searchResultItem {
-  list-style-type: none;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
   cursor: pointer;
-  padding: 0.5rem 0.5rem;
-  transition: 0.3s ease;
 }
 
 .searchResultItem:hover {
   background-color: var(--colors-accent);
-}
-
-.searchInputWrapper .searchInput:focus + label,
-.searchInputWrapper .searchInput:not(:placeholder-shown) + label {
-  left: 105%;
-  color: var(--colors-accent);
-  overflow: -moz-hidden-unscrollable;
 }
 
 /**********************
@@ -158,6 +152,11 @@
   border: 1px solid var(--colors-primary);
   border-radius: 0.25rem;
   outline: none;
+  font-size: 16px;
+}
+
+.playerFormInput::placeholder {
+  color: var(--colors-textSecondary);
 }
 
 .playerFormInput:focus {
@@ -178,13 +177,6 @@
 
 .inputWrapper:hover label {
   color: var(--colors-accent);
-}
-
-.inputWrapper .playerFormInput:focus + label,
-.inputWrapper .playerFormInput:not(:placeholder-shown) + label {
-  left: 12rem;
-  color: var(--colors-accent);
-  overflow: -moz-hidden-unscrollable;
 }
 
 .addPlayerButton {
@@ -285,9 +277,6 @@
   width: 50%;
 }
 
-.addTeamButton {
-}
-
 .modalPage {
   display: flex;
   flex-direction: column;
@@ -325,6 +314,8 @@
   outline: none;
   transition: 0.3s ease;
   color: var(--colors-textDefault);
+  margin-bottom: 1.5rem;
+  font-size: 16px;
 }
 
 .teamNameInput:focus,
@@ -339,6 +330,19 @@
 }
 
 .changeNameButton {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: var(--fontWeights-bold);
+  color: var(--colors-textDefault);
+  transition: 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.changeNameButton:hover,
+.changeNameButton:focus {
+  color: var(--colors-accent);
 }
 
 .playerSelectItem {
@@ -375,7 +379,6 @@
   justify-content: center;
   gap: 2rem;
   grid-area: startSection;
-
 }
 
 .gameModeSelectContainer {
@@ -408,6 +411,43 @@
   outline: none;
 }
 
-.gameModeOption {
+@media screen and (max-width: 980px) {
+  .container {
+    grid-template-areas:
+      'addSection'
+      'listSection'
+      'startSection';
+    row-gap: 2rem;
+  }
+}
 
+@media screen and (max-width: 600px) {
+  .playerAddCard,
+  .playerListCard {
+    width: 90%;
+    min-width: 22rem;
+  }
+
+  .inputWrapper label,
+  .searchInputWrapper label {
+    display: none;
+  }
+
+  .startContainer {
+    margin-bottom: 4rem;
+  }
+
+  .searchResultList {
+    max-height: 50vh;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .inputWrapper .playerFormInput:focus + label,
+  .inputWrapper .playerFormInput:not(:placeholder-shown) + label,
+  .searchInputWrapper .searchInput:focus + label,
+  .searchInputWrapper .searchInput:not(:placeholder-shown) + label {
+    left: 105%;
+    color: var(--colors-accent);
+  }
 }
