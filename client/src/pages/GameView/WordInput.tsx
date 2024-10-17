@@ -150,7 +150,7 @@ const WordInput = ({ letters, setLetters }: WordInputProps) => {
           <input
             className={styles.letterInput}
             type='text'
-            value={letter.letter}
+            defaultValue={letter.letter}
             maxLength={1}
             onKeyDown={(e) => handleKeyDown(index, e)}
             ref={(el) => (inputRefs.current[index] = el)}

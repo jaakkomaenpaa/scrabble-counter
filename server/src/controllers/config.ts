@@ -1,5 +1,7 @@
 import Database from 'better-sqlite3'
 import { Request, Response } from 'express'
+import { faker } from '@faker-js/faker'
+
 import {
   createGames,
   createPlayerGames,
@@ -8,6 +10,7 @@ import {
   createTeams,
 } from '../queries/creates'
 import { clearDbTables, dropDbTables } from '../queries/deletes'
+import Player from '../classes/Player'
 
 // TODO: make these require authentication
 
@@ -122,5 +125,19 @@ export const updateDatabase = (req: Request, res: Response) => {
     res.status(200).send('Tables cleared and updated successfully!')
   } catch (error) {
     res.status(500).send(`Error clearing tables: ${error}`)
+  }
+}
+
+export const addFakePlayers = (req: Request, res: Response) => {
+  const amount: number = parseInt(req.params.amount)
+
+  try {
+    for (let i = 0; i < amount; i++) {
+      Player.create(faker.person.fullName(), faker.internet.displayName())
+    }
+    res.status(200).send('Player created successfully.')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(`Error adding player: ${error}`)
   }
 }

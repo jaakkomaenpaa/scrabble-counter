@@ -52,7 +52,7 @@ export const formatDate = (date: Date): string => {
     minutes += '0'
   }
 
-  return `${day}.${month}.${year} - ${hours}:${minutes}`
+  return `${day}/${month}/${year} - ${hours}:${minutes}`
 }
 
 export const getGameParticipantId = (entry: GameParticipant): string => {
@@ -73,4 +73,8 @@ export const getParticipantDisplayName = (entry: GameParticipant): string => {
 
   const player: Player = entry.participant as Player
   return player.displayName
+}
+
+export const sleep = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

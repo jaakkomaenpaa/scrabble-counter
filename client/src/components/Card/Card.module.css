@@ -1,0 +1,17 @@
+.container {
+  height: 26rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--colors-backgroundSecondary);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    width: 90%;
+    min-width: 22rem;
+  }
+}

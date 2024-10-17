@@ -4,6 +4,7 @@ import { Player, Team } from '../../types'
 import styles from './GameSetup.module.css'
 import TeamSelect from './TeamSelect'
 import { getTeamDisplayName } from '../../utils'
+import Card from '../../components/Card'
 
 interface PlayerListSectionProps {
   playersForGame: Player[]
@@ -25,7 +26,7 @@ const PlayerListSection = ({
   return (
     <section className={styles.playerListSection}>
       <h2 className={styles.playerListHeader}>Participants</h2>
-      <div className={styles.playerListCard}>
+      <Card>
         {playersForGame.length > 0 ? (
           <div className={styles.playerListContainer}>
             <h3>Players</h3>
@@ -65,7 +66,7 @@ const PlayerListSection = ({
         {playersForGame.length >= 0 && (
           <TeamSelect singlePlayerList={singlePlayerList} addTeam={handleAddTeam} />
         )}
-      </div>
+      </Card>
     </section>
   )
 }

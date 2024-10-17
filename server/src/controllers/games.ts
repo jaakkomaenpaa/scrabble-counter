@@ -10,6 +10,11 @@ export const getGameById = (req: Request, res: Response) => {
   res.json(game)
 }
 
+export const getOngoingGames = (req: Request, res: Response) => {
+  const games = Game.fetchOngoing()
+  res.json(games)
+}
+
 export const createGame = (req: Request, res: Response) => {
   const { gameMode, participants } = req.body
 

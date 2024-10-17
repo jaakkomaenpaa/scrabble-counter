@@ -22,6 +22,21 @@ const findById = async (gameId: string | number): Promise<Game | null> => {
   }
 }
 
+const getOngoing = async (): Promise<Game[]> => {
+  try {
+    const response = await axios.get(`${baseUrl}/ongoing`)
+    const games: Game[] = response.data.map((game: Game) => ({
+      ...game,
+      startDate: new Date(game.startDate),
+      endDate: new Date(game.endDate),
+    }))
+
+    return games
+  } catch (error) {
+    return []
+  }
+}
+
 const create = async (
   gameMode: GameMode,
   participants: GameParticipant[]
@@ -53,9 +68,10 @@ const finish = async (gameId: string | number): Promise<Game> => {
 
 const exports = {
   findById,
+  getOngoing,
   create,
   updateTurn,
-  finish
+  finish,
 }
 
 export default exports

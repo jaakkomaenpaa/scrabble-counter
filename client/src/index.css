@@ -34,6 +34,7 @@ header {
 .headerText {
   margin-left: 3rem;
   color: var(--colors-textDark);
+  cursor: pointer;
 }
 
 .app {

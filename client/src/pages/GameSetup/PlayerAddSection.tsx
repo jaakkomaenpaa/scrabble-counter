@@ -2,6 +2,7 @@ import PlayerForm from './PlayerForm'
 import PlayerSearch from './PlayerSearch'
 import styles from './GameSetup.module.css'
 import { Player } from '../../types'
+import Card from '../../components/Card'
 
 interface PlayerAddSectionProps {
   playerListFromApi: Player[]
@@ -17,14 +18,14 @@ const PlayerAddSection = ({
   return (
     <section className={styles.playerAddSection}>
       <h2>Add players</h2>
-      <div className={styles.playerAddCard}>
+      <Card>
         <PlayerSearch
           playerListFromApi={playerListFromApi}
           playersForGame={playersForGame}
           addPlayer={handleAddPlayer}
         />
         <PlayerForm addPlayer={handleAddPlayer} />
-      </div>
+      </Card>
     </section>
   )
 }

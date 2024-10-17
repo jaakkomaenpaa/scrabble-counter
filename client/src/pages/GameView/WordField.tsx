@@ -82,7 +82,7 @@ const WordField = ({ setWord }: WordFieldProps) => {
               className={styles.checkbox}
               type='checkbox'
               checked={wordGetsBonus}
-              onClick={() => setWordGetsBonus(!wordGetsBonus)}
+              onChange={() => setWordGetsBonus(!wordGetsBonus)}
             />
           </div>
           <div className={styles.extraPointContainer}>

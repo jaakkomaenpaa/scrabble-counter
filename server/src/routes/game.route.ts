@@ -3,6 +3,7 @@ import {
   createGame,
   finishGame,
   getGameById,
+  getOngoingGames,
   populatePlayers,
   testFunction,
   updateGameTurn,
@@ -10,6 +11,7 @@ import {
 
 const gameRouter = express.Router()
 
+gameRouter.get('/ongoing', getOngoingGames)
 gameRouter.get('/:gameId', getGameById)
 
 gameRouter.post('/create', createGame)

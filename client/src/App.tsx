@@ -1,19 +1,24 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Game from './pages/GameView'
 import GameSetup from './pages/GameSetup'
 import Navbar from './components/Navbar'
 import ErrorPage from './pages/ErrorPage'
+import HomePage from './pages/HomePage'
 
 const App = () => {
+  const navigate = useNavigate()
+
   return (
     <div className='app'>
       <header>
-        <h1 className='headerText'>Scrabble counter</h1>
+        <h1 className='headerText' onClick={() => navigate('/')}>
+          Scrabble counter
+        </h1>
         <Navbar />
       </header>
       <main className='content'>
         <Routes>
-          <Route path='/' element={<GameSetup />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/game' element={<GameSetup />} />
           <Route path='/game/:gameId' element={<Game />} />
           <Route path='/ranking' element={<div>Not implemented yet</div>} />

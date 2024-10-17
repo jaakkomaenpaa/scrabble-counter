@@ -1,0 +1,31 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--colors-textDefault);
+}
+
+.gameList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.gameListItem {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.gameListItem:hover {
+  background-color: var(--colors-accent);
+}

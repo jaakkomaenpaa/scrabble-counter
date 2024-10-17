@@ -1,5 +1,6 @@
 import express from 'express'
 import {
+  addFakePlayers,
   clearDatabase,
   createDatabase,
   deleteDatabase,
@@ -14,5 +15,7 @@ configRouter.get('/init-db/:dbName', initDatabase)
 configRouter.get('/clear-db/:dbName', clearDatabase)
 configRouter.get('/delete-db/:dbName', deleteDatabase)
 configRouter.get('/update-db/:dbName', updateDatabase)
+
+configRouter.get('/add-fake-players/:amount', addFakePlayers)
 
 export default configRouter

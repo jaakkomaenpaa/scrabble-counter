@@ -1,28 +1,25 @@
-import { useEffect, useState } from 'react'
 import styles from './Navbar.module.css'
 import { Link, useLocation } from 'react-router-dom'
 
 const Navbar = () => {
-  const [pathname, setPathname] = useState<string>('/')
   const location = useLocation()
 
-  useEffect(() => {
-    setPathname(location.pathname)
-  }, [location.pathname])
-
   const links = [
-    { to: '/game', label: 'Game' },
+    { to: '/', label: 'Home' },
+    { to: '/game', label: 'New game' },
     { to: '/ranking', label: 'Ranking' },
     { to: '/stats', label: 'Stats' },
     { to: '/settings', label: 'Settings' },
   ]
 
   const getLinkClass = (path: string) => {
-    if (pathname === '/' && path === '/game') {
-      return styles.navbarTabActive
+    if (path === '/') {
+      return location.pathname === '/' ? styles.navbarTabActive : styles.navbarTab
     }
 
-    return pathname.includes(path) ? styles.navbarTabActive : styles.navbarTab
+    return location.pathname.startsWith(path)
+      ? styles.navbarTabActive
+      : styles.navbarTab
   }
 
   return (
@@ -37,3 +34,15 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+/*
+    if (pathname === '/' && path === '/') {
+      return styles.navbarTabActive
+    }
+
+    if (pathname !== '/') {
+      return pathname.includes(path) ? styles.navbarTabActive : styles.navbarTab
+    }
+
+    return styles.navbarTab
+    */

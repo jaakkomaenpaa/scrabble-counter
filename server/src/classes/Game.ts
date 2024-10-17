@@ -3,7 +3,12 @@ import { DB } from '../config'
 import Player from './Player'
 import { handleActionForPlayerOrTeam } from '../utils'
 import Team from './Team'
-import { insertNewGame, selectGameById, updateGameFinish } from '../queries/games'
+import {
+  insertNewGame,
+  selectGameById,
+  selectOngoingGames,
+  updateGameFinish,
+} from '../queries/games'
 import { insertPlayerWord } from '../queries/playerWords'
 import { selectPlayerFromGame, updatePlayerGameStatus } from '../queries/playerGames'
 
@@ -39,6 +44,17 @@ export default class Game {
     }
 
     return this.createFromRow(row)
+  }
+
+  /* Find all unfinished games */
+  public static fetchOngoing(): Game[] {
+    const rows = DB.prepare(selectOngoingGames).all() as Game[]
+
+    if (!rows) {
+      return []
+    }
+
+    return rows.map((row) => this.createFromRow(row))
   }
 
   /* Add a game template (start game) */
