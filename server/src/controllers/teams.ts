@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Team from '../classes/Team'
+import { TeamWithTotalGameStats } from '../types'
 
 export const getTeamById = (req: Request, res: Response) => {
   const teamId: number = parseInt(req.params.teamId)
@@ -19,13 +20,21 @@ export const addNewTeam = (req: Request, res: Response) => {
   }
 }
 
+export const getTotalTeamGameStats = (req: Request, res: Response) => {
+  const teams = Team.fetchAll()
+  const teamsWithStats: TeamWithTotalGameStats[] = teams.map((team: Team) => {
+    return team.getTotalGameStats()
+  })
+  res.json(teamsWithStats)
+}
+
 export const findTeamByMembers = (req: Request, res: Response) => {
   const { players } = req.body
 
   try {
     const team = Team.findByMembers(players)
     console.log('team', team)
-    
+
     res.json(team) // May be null
   } catch (error) {
     console.error(error)

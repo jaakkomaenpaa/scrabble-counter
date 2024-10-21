@@ -24,3 +24,17 @@ export const insertPlayerWord = `
   )
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `
+
+export const selectTotalPlayerWords = `
+  SELECT COUNT(word) AS totalWords
+  FROM playerWords
+  WHERE playerId = ?
+    AND word != '' AND word IS NOT NULL
+`
+
+export const selectTotalTeamWords = `
+  SELECT COUNT(word) / 2 AS totalWords
+  FROM playerWords
+  WHERE teamId = ?
+    AND word != '' AND word IS NOT NULL
+`

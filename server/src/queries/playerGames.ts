@@ -47,3 +47,21 @@ export const updatePlayerGameStatus = `
   WHERE playerId = ? 
     AND gameId = ?
 `
+
+export const selectTotalPlayerGameStats = `
+  SELECT 
+    COALESCE(SUM(score), 0) AS totalScore, 
+    COALESCE(SUM(turnsUsed), 0) AS totalTurnsUsed, 
+    COUNT(playerId) AS totalGames
+  FROM playerGames
+  WHERE playerId = ?
+`
+
+export const selectTotalTeamGameStats = `
+  SELECT 
+    COALESCE(SUM(score) / 2, 0) AS totalScore, 
+    COALESCE(SUM(turnsUsed) / 2, 0) AS totalTurnsUsed, 
+    COUNT(playerId) / 2 AS totalGames
+  FROM playerGames
+  WHERE teamId = ?
+`

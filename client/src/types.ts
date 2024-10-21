@@ -2,9 +2,6 @@ export interface Player {
   id: number
   displayName: string
   fullName: string
-  totalScore?: number
-  totalGames?: number
-  totalWordsPlayed?: number
   wordList?: number
 }
 
@@ -54,17 +51,6 @@ export enum Letter {
 export interface LetterScore {
   letter: Letter
   bonus: Bonus
-}
-
-export interface Player {
-  id: number
-  displayName: string
-  fullName: string
-
-  totalScore?: number
-  totalGames?: number
-  totalWordsPlayed?: number
-  wordList?: number
 }
 
 export interface TemporaryTeam {
@@ -121,3 +107,17 @@ export enum LocalStorageKey {
   SinglePlayerList = 'singleplayerlist',
   TeamList = 'teamlist'
 }
+
+export interface TotalGameStats {
+  totalScore: number
+  totalGames: number
+  totalTurnsUsed: number
+  totalWords: number
+  avgGameScore: number
+  avgWordScore: number
+  avgWordsPlayed: number
+}
+
+export type PlayerWithTotalGameStats = Player & TotalGameStats
+
+export type TeamWithTotalGameStats = Team & TotalGameStats

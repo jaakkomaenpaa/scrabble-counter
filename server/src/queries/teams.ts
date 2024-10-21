@@ -4,6 +4,11 @@ export const selectTeamById = `
   WHERE id = ?  
 `
 
+export const selectAllTeams = `
+  SELECT id, name
+  FROM teams
+`
+
 export const insertTeam = `
   INSERT INTO teams (name)
   VALUES (?)

@@ -5,9 +5,21 @@ import {
   selectPlayerByDispName,
   selectPlayerById,
 } from '../queries/players'
-import { insertPlayerToGame, selectPlayerStatusByGame } from '../queries/playerGames'
-import { selectPlayerWordsByGame } from '../queries/playerWords'
-import { PlayerGameStatus, WordScoreApi } from '../types'
+import {
+  insertPlayerToGame,
+  selectPlayerStatusByGame,
+  selectTotalPlayerGameStats,
+} from '../queries/playerGames'
+import {
+  selectPlayerWordsByGame,
+  selectTotalPlayerWords,
+} from '../queries/playerWords'
+import {
+  PlayerGameStatus,
+  PlayerWithTotalGameStats,
+  TotalGameStats,
+  WordScoreApi,
+} from '../types'
 
 export default class Player {
   constructor(
@@ -128,5 +140,38 @@ export default class Player {
   }
 
   // Get all stats: words, scores, etc.
-  public getAllStats() {}
+  public getTotalGameStats(): PlayerWithTotalGameStats {
+    const gameRow = DB.prepare(selectTotalPlayerGameStats).get(this.id) as {
+      totalScore: number
+      totalGames: number
+      totalTurnsUsed: number
+    }
+    const wordRow = DB.prepare(selectTotalPlayerWords).get(this.id) as {
+      totalWords: number
+    }
+
+    if (!gameRow || !wordRow) {
+      return {
+        ...this,
+        totalScore: 0,
+        totalGames: 0,
+        totalTurnsUsed: 0,
+        totalWords: 0,
+        avgGameScore: 0,
+        avgWordScore: 0,
+        avgWordsPlayed: 0,
+      } as PlayerWithTotalGameStats
+    }
+
+    const stats = {
+      ...this,
+      ...gameRow,
+      ...wordRow,
+      avgGameScore: gameRow.totalScore / gameRow.totalGames || 0,
+      avgWordScore: gameRow.totalScore / wordRow.totalWords || 0,
+      avgWordsPlayed: wordRow.totalWords / gameRow.totalGames || 0,
+    } as PlayerWithTotalGameStats
+
+    return stats
+  }
 }

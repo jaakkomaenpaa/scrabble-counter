@@ -1,4 +1,5 @@
 import Player from './classes/Player'
+import Team from './classes/Team'
 
 export interface TeamWithMembers {
   id: number
@@ -37,3 +38,17 @@ export enum GameMode {
   Normal = 'Normal',
   Ghetto = 'Ghetto',
 }
+
+export interface TotalGameStats {
+  totalScore: number
+  totalGames: number
+  totalTurnsUsed: number
+  totalWords: number
+  avgGameScore: number
+  avgWordScore: number
+  avgWordsPlayed: number
+}
+
+export type PlayerWithTotalGameStats = Player & TotalGameStats
+
+export type TeamWithTotalGameStats = Team & TotalGameStats

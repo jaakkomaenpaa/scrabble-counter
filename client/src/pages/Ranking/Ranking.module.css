@@ -1,0 +1,146 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--colors-textDefault);
+}
+
+/*********************
+*   FILTER SECTION   *
+**********************/
+
+.filterContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.sortBySelect {
+  padding: 5px 10px;
+  border: 1px solid var(--colors-primary);
+  border-radius: 6px;
+  font-weight: var(--fontWeights-bold);
+  background-color: var(--colors-textLight);
+  transition: 0.3s ease;
+  color: var(--colors-textDefault);
+  cursor: pointer;
+}
+
+.sortBySelect:hover,
+.sortBySelect:focus {
+  outline: none;
+}
+
+.sortBySelect:hover {
+  border-color: var(--colors-primary);
+  box-shadow: 0 0 5px var(--colors-primary);
+}
+
+.toggleAscending {
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 3rem;
+  height: 1.5rem;
+  background-color: var(--colors-backgroundSecondary);
+  color: var(--colors-accent);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3) inset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  padding: 0.15rem;
+  transition: background-color 0.1s 0.3s ease-out, box-shadow 0.1s 0.3s ease-out;
+  appearance: none;
+  cursor: pointer;
+}
+
+.toggleAscending::before {
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: var(--colors-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: '▲';
+  font-size: 0.8rem;
+  color: var(--colors-accent);
+  border-radius: 50%;
+  transition: background-color 0.1s 0.3s ease-out, transform 0.3s ease-out,
+    color 0.3s ease-out;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3) inset;
+  position: relative;
+}
+
+.toggleAscending:checked::before {
+  background-color: var(--colors-accent);
+  color: var(--colors-primary);
+  transform: translateX(125%) rotate(180deg);
+}
+
+/*******************
+*   RANKING TABLE   *
+********************/
+
+.tableWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 96vw;
+}
+
+.playerTable {
+  border-collapse: collapse;
+  background-color: var(--colors-backgroundSecondary);
+  border-radius: 6px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.th,
+.td {
+  text-align: center;
+  height: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.th:nth-child(2),
+td:nth-child(2) {
+  text-align: start;
+  cursor: pointer;
+}
+
+.tr {
+  border-bottom: 0.5px solid var(--colors-background);
+}
+
+.tr:last-child {
+  border-bottom: 0px;
+}
+
+.trActive {
+  background-color: var(--colors-accent);
+  border-bottom: 0.5px solid var(--colors-background);
+}
+
+@media screen and (max-width: 768px) {
+  .tableWrapper {
+    max-width: 95vw;
+    overflow: auto;
+    padding: 10px;
+  }
+
+  .th,
+  .td {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+    text-align: center;
+  }
+
+  .th:nth-child(2),
+  td:nth-child(2) {
+    padding: 0.2rem 0;
+  }
+}

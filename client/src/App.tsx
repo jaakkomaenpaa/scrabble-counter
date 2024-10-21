@@ -4,6 +4,7 @@ import GameSetup from './pages/GameSetup'
 import Navbar from './components/Navbar'
 import ErrorPage from './pages/ErrorPage'
 import HomePage from './pages/HomePage'
+import Ranking from './pages/Ranking'
 
 const App = () => {
   const navigate = useNavigate()
@@ -21,7 +22,7 @@ const App = () => {
           <Route path='/' element={<HomePage />} />
           <Route path='/game' element={<GameSetup />} />
           <Route path='/game/:gameId' element={<Game />} />
-          <Route path='/ranking' element={<div>Not implemented yet</div>} />
+          <Route path='/ranking' element={<Ranking />} />
           <Route path='/stats' element={<div>Not implemented yet</div>} />
           <Route
             path='/stats/player/:playerId'

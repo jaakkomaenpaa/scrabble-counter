@@ -1,4 +1,10 @@
-import { GameParticipant, Player, Team } from './types'
+import {
+  GameParticipant,
+  Player,
+  PlayerWithTotalGameStats,
+  Team,
+  TeamWithTotalGameStats,
+} from './types'
 
 export const getTeamDisplayName = (team: Team) => {
   const memberNames = team.members
@@ -76,5 +82,15 @@ export const getParticipantDisplayName = (entry: GameParticipant): string => {
 }
 
 export const sleep = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+export const getPlayerOrTeamDisplayName = (
+  entry: PlayerWithTotalGameStats | TeamWithTotalGameStats
+) => {
+  if ('members' in entry) {
+    return entry.name
+  } else {
+    return entry.displayName
+  }
 }

@@ -5,10 +5,12 @@ import {
   deleteTeam,
   findTeamByMembers,
   getTeamById,
+  getTotalTeamGameStats,
 } from '../controllers/teams'
 
 const teamRouter = express.Router()
 
+teamRouter.get('/stats', getTotalTeamGameStats)
 teamRouter.get('/:teamId', getTeamById)
 
 teamRouter.post('/add', addNewTeam)

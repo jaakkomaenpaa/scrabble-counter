@@ -3,15 +3,17 @@ import {
   selectTeamByMembers,
   selectTeamMembers,
   selectTeamStatusByGame,
+  selectTotalTeamGameStats,
 } from '../queries/playerGames'
-import { selectTeamWordsByGame } from '../queries/playerWords'
+import { selectTeamWordsByGame, selectTotalTeamWords } from '../queries/playerWords'
 import {
   deleteTeam,
   insertTeam,
+  selectAllTeams,
   selectTeamById,
   updateTeamName,
 } from '../queries/teams'
-import { PlayerGameStatus, WordScoreApi } from '../types'
+import { PlayerGameStatus, TeamWithTotalGameStats, WordScoreApi } from '../types'
 import Player from './Player'
 
 export default class Team {
@@ -48,6 +50,16 @@ export default class Team {
     }
 
     return this.createFromRow(row)
+  }
+
+  public static fetchAll(): Team[] {
+    const rows = DB.prepare(selectAllTeams).all() as Team[]
+
+    if (!rows) {
+      throw new Error('Teams not found')
+    }
+
+    return rows.map((row) => this.createFromRow(row))
   }
 
   /* Find team by its members; return null if doesn't exist */
@@ -136,5 +148,41 @@ export default class Team {
     }
 
     return row
+  }
+
+  // Get all stats: words, scores, etc.
+  public getTotalGameStats(): TeamWithTotalGameStats {
+    const gameRow = DB.prepare(selectTotalTeamGameStats).get(this.id) as {
+      totalScore: number
+      totalGames: number
+      totalTurnsUsed: number
+    }
+    const wordRow = DB.prepare(selectTotalTeamWords).get(this.id) as {
+      totalWords: number
+    }
+
+    if (!gameRow || !wordRow) {
+      return {
+        ...this,
+        totalScore: 0,
+        totalGames: 0,
+        totalTurnsUsed: 0,
+        totalWords: 0,
+        avgGameScore: 0,
+        avgWordScore: 0,
+        avgWordsPlayed: 0,
+      } as TeamWithTotalGameStats
+    }
+
+    const stats = {
+      ...this,
+      ...gameRow,
+      ...wordRow,
+      avgGameScore: gameRow.totalScore / gameRow.totalGames || 0,
+      avgWordScore: gameRow.totalScore / wordRow.totalWords || 0,
+      avgWordsPlayed: wordRow.totalWords / gameRow.totalGames || 0,
+    } as TeamWithTotalGameStats
+
+    return stats
   }
 }
