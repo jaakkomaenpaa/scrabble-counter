@@ -90,6 +90,8 @@ export interface WordScoreApi {
   hasAllLettersBonus: boolean
   hasExtraPoints: boolean
   turnPlayedOn: number
+  team?: Team
+  mode?: GameMode
 }
 
 export enum GameMode {
@@ -121,3 +123,12 @@ export interface TotalGameStats {
 export type PlayerWithTotalGameStats = Player & TotalGameStats
 
 export type TeamWithTotalGameStats = Team & TotalGameStats
+
+export interface PlayerWithAllStats extends PlayerWithTotalGameStats {
+  allWords: WordScoreApi[]
+  teams: Team[]
+}
+
+export interface TeamWithAllStats extends TeamWithTotalGameStats {
+  allWords: WordScoreApi[]
+}

@@ -1,11 +1,16 @@
 import axios from 'axios'
 import { BASE_API_URL } from '../config'
-import { Player, Team, TeamWithTotalGameStats } from '../types'
+import { Player, Team, TeamWithAllStats, TeamWithTotalGameStats } from '../types'
 
 const baseUrl = `${BASE_API_URL}/teams`
 
 const findById = async (teamId: string | number): Promise<Team> => {
   const response = await axios.get(`${baseUrl}/${teamId}`)
+  return response.data
+}
+
+const getOneWithAllStats = async (teamId: string | number): Promise<TeamWithAllStats> => {
+  const response = await axios.get(`${baseUrl}/stats/${teamId}`)
   return response.data
 }
 
@@ -45,6 +50,7 @@ const deleteFromDb = async (teamId: string | number): Promise<void> => {
 
 const exports = {
   findById,
+  getOneWithAllStats,
   getAllWithTotalGameStats,
   findByMembers,
   addNew,

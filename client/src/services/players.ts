@@ -1,11 +1,16 @@
 import axios from 'axios'
 import { BASE_API_URL } from '../config'
-import { Player, PlayerWithTotalGameStats } from '../types'
+import { Player, PlayerWithAllStats, PlayerWithTotalGameStats } from '../types'
 
 const baseUrl = `${BASE_API_URL}/players`
 
 const getAll = async (): Promise<Player[]> => {
   const response = await axios.get(baseUrl)
+  return response.data
+}
+
+const getOneWithAllStats = async (playerId: string | number): Promise<PlayerWithAllStats> => {
+  const response = await axios.get(`${baseUrl}/stats/${playerId}`)
   return response.data
 }
 
@@ -28,6 +33,7 @@ const addNew = async (fullName: string, displayName: string): Promise<Player> =>
 
 const exports = {
   getAll,
+  getOneWithAllStats,
   getAllWithTotalGameStats,
   findById,
   addNew,

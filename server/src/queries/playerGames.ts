@@ -65,3 +65,10 @@ export const selectTotalTeamGameStats = `
   FROM playerGames
   WHERE teamId = ?
 `
+
+export const selectPlayerTeamIds = `
+  SELECT DISTINCT teamId
+  FROM playerGames
+  WHERE playerId = ?
+   AND teamId IS NOT NULL
+`

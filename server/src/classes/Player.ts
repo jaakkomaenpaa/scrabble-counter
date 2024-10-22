@@ -8,28 +8,27 @@ import {
 import {
   insertPlayerToGame,
   selectPlayerStatusByGame,
+  selectPlayerTeamIds,
   selectTotalPlayerGameStats,
 } from '../queries/playerGames'
 import {
+  selectAllPlayerWords,
   selectPlayerWordsByGame,
   selectTotalPlayerWords,
 } from '../queries/playerWords'
 import {
   PlayerGameStatus,
   PlayerWithTotalGameStats,
-  TotalGameStats,
   WordScoreApi,
+  WordScoreApiWithTeamId,
 } from '../types'
+import Team from './Team'
 
 export default class Player {
   constructor(
     public id: number,
     public fullName: string,
     public displayName: string,
-
-    public totalScore: number = 0,
-    public totalGames: number = 0,
-    public totalWordsPlayed: number = 0,
     public wordList: WordScoreApi[] = []
   ) {}
 
@@ -163,7 +162,7 @@ export default class Player {
       } as PlayerWithTotalGameStats
     }
 
-    const stats = {
+    return {
       ...this,
       ...gameRow,
       ...wordRow,
@@ -171,7 +170,37 @@ export default class Player {
       avgWordScore: gameRow.totalScore / wordRow.totalWords || 0,
       avgWordsPlayed: wordRow.totalWords / gameRow.totalGames || 0,
     } as PlayerWithTotalGameStats
+  }
 
-    return stats
+  public getAllWords(): WordScoreApi[] {
+    const rows = DB.prepare(selectAllPlayerWords).all(
+      this.id
+    ) as WordScoreApiWithTeamId[]
+
+    if (!rows) {
+      return []
+    }
+
+    return rows.map((row) => {
+      let newRow: WordScoreApi = {
+        ...row,
+      }
+
+      if (row.teamId) {
+        newRow.team = Team.fetchById(row.teamId)
+      }
+
+      return newRow
+    })
+  }
+
+  public getTeams(): Team[] {
+    const rows = DB.prepare(selectPlayerTeamIds).all(this.id) as { teamId: number }[]
+
+    if (!rows) {
+      return []
+    }
+
+    return rows.map((row) => Team.fetchById(row.teamId))
   }
 }

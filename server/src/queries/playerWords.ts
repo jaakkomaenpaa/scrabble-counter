@@ -38,3 +38,25 @@ export const selectTotalTeamWords = `
   WHERE teamId = ?
     AND word != '' AND word IS NOT NULL
 `
+
+export const selectAllPlayerWords = `
+  SELECT DISTINCT word, score, doubleLetterBonuses, tripleLetterBonuses,
+    doubleWordBonuses, tripleWordBonuses, hasAllLettersBonus, hasExtraPoints, 
+    turnPlayedOn, teamId, mode
+  FROM playerWords pw
+  INNER JOIN games g ON pw.gameId = g.id
+  WHERE playerId = ?
+    AND word != '' AND word IS NOT NULL
+  ORDER BY score DESC
+`
+
+export const selectAllTeamWords = `
+  SELECT DISTINCT word, score, doubleLetterBonuses, tripleLetterBonuses,
+    doubleWordBonuses, tripleWordBonuses, hasAllLettersBonus, hasExtraPoints, 
+    turnPlayedOn, mode
+  FROM playerWords pw
+  INNER JOIN games g ON pw.gameId = g.id
+  WHERE teamId = ?
+    AND word != '' AND word IS NOT NULL
+  ORDER BY score DESC
+`

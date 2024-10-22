@@ -5,7 +5,11 @@ import {
   selectTeamStatusByGame,
   selectTotalTeamGameStats,
 } from '../queries/playerGames'
-import { selectTeamWordsByGame, selectTotalTeamWords } from '../queries/playerWords'
+import {
+  selectAllTeamWords,
+  selectTeamWordsByGame,
+  selectTotalTeamWords,
+} from '../queries/playerWords'
 import {
   deleteTeam,
   insertTeam,
@@ -184,5 +188,15 @@ export default class Team {
     } as TeamWithTotalGameStats
 
     return stats
+  }
+
+  public getAllWords(): WordScoreApi[] {
+    const rows = DB.prepare(selectAllTeamWords).all(this.id) as WordScoreApi[]
+
+    if (!rows) {
+      return []
+    }
+
+    return rows
   }
 }
