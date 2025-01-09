@@ -7,9 +7,7 @@ const Navbar = () => {
   const links = [
     { to: '/', label: 'Home' },
     { to: '/game', label: 'New game' },
-    { to: '/ranking', label: 'Ranking' },
-    { to: '/stats', label: 'Stats' },
-    { to: '/settings', label: 'Settings' },
+    { to: '/ranking', label: 'Ranking' }
   ]
 
   const getLinkClass = (path: string) => {
@@ -34,15 +32,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
-/*
-    if (pathname === '/' && path === '/') {
-      return styles.navbarTabActive
-    }
-
-    if (pathname !== '/') {
-      return pathname.includes(path) ? styles.navbarTabActive : styles.navbarTab
-    }
-
-    return styles.navbarTab
-    */
